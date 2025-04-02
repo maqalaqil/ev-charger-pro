@@ -1,0 +1,71 @@
+# ========================================
+# Python
+# ========================================
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.env
+.venv
+*.sqlite3
+*.log
+
+# Pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# PyInstaller
+*.spec
+
+# Jupyter
+.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# ========================================
+# Node / React / NestJS
+# ========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+package-lock.json
+.env
+.env.*.local
+
+# dist or build folders (common for both React and NestJS)
+dist/
+build/
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+yarn.lock
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# IDEs
+.idea/
+
+# React-specific
+*.DS_Store
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# NestJS-specific
+*.swp
+.husky/_/

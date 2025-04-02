@@ -1,0 +1,63 @@
+# ==========================
+# Global
+# ==========================
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+.env
+.env.*.local
+
+# Ignore node_modules everywhere
+**/node_modules/
+
+# Ignore dist and build folders
+**/dist/
+**/build/
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# ==========================
+# Python (ai/)
+# ==========================
+ai/__pycache__/
+ai/*.py[cod]
+ai/*.egg
+ai/*.egg-info/
+ai/.eggs/
+ai/.venv/
+ai/.env
+ai/.mypy_cache/
+ai/.pytest_cache/
+ai/poetry.lock
+ai/Pipfile.lock
+ai/*.sqlite3
+ai/*.spec
+ai/.ipynb_checkpoints/
+
+# ==========================
+# React (frontend/)
+# ==========================
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/yarn.lock
+frontend/package-lock.json
+frontend/pnpm-lock.yaml
+frontend/.cache/
+
+# ==========================
+# NestJS (backend/)
+# ==========================
+backend/.env
+backend/.env.*.local
+backend/.cache/
+backend/coverage/
+backend/*.tsbuildinfo
+backend/yarn.lock
+backend/package-lock.json
+backend/pnpm-lock.yaml
