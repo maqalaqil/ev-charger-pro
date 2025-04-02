@@ -5,7 +5,7 @@ const ForecastAI = () => {
   const [forecast, setForecast] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/ai/forecast').then(res => {
+    axios.get('http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:3001/ai/forecast').then(res => {
       setForecast(res.data);
     });
   }, []);

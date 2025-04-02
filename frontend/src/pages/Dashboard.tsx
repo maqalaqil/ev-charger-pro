@@ -25,7 +25,7 @@ const Dashboard = ({ token, role }) => {
   }, []);
 
   const fetchSummary = async () => {
-    let url = 'http://localhost:3001/charging-summary/monthly';
+    let url = 'http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:3001/charging-summary/monthly';
     if (filter.from && filter.to) {
       url += `?from=${filter.from}&to=${filter.to}`;
     }
@@ -34,7 +34,7 @@ const Dashboard = ({ token, role }) => {
   };
 
   const fetchTrend = async () => {
-    let url = 'http://localhost:3001/charging-summary/trend';
+    let url = 'http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:3001/charging-summary/trend';
     if (filter.from && filter.to) {
       url += `?from=${filter.from}&to=${filter.to}`;
     }
@@ -47,7 +47,7 @@ const Dashboard = ({ token, role }) => {
   };
 
   const fetchRecords = async () => {
-    const res = await axios.get('http://localhost:3001/charging-records');
+    const res = await axios.get('http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:3001/charging-records');
     setRecords(res.data);
   };
 
@@ -64,7 +64,7 @@ const Dashboard = ({ token, role }) => {
     const payload = { readingAfter: after, kwhPrice: kwh, date: form.date };
 
     try {
-      const res = await axios.post('http://localhost:3001/charging-records', payload, {
+      const res = await axios.post('http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:3001/charging-records', payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -78,7 +78,7 @@ const Dashboard = ({ token, role }) => {
   };
 
   const exportCSV = () => {
-    window.open('http://localhost:3001/charging-export/csv', '_blank');
+    window.open('http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:3001/charging-export/csv', '_blank');
   };
 
   const cardStyle = {

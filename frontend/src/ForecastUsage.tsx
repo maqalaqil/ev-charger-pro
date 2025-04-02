@@ -5,7 +5,7 @@ const ForecastUsage = () => {
   const [forecast, setForecast] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/ai/forecast/usage')
+    axios.get('http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:3001/ai/forecast/usage')
       .then(res => setForecast(res.data))
       .catch(() => setForecast({ error: "Failed to load forecast" }));
   }, []);

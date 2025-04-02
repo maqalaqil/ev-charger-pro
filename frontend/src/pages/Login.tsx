@@ -6,7 +6,7 @@ const Login = ({ onLogin }) => {
 
   const login = async (e) => {
     e.preventDefault();
-    const res = await axios.post('http://localhost:3001/auth/login', form);
+    const res = await axios.post('http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:3001/auth/login', form);
     onLogin({ token: res.data.access_token, role: res.data.user.role });
   };
 

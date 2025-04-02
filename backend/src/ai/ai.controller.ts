@@ -23,7 +23,7 @@ export class AiController {
   
 
     const res = await firstValueFrom(
-      this.http.post('http://127.0.0.1:8000/forecast', payload)
+      this.http.post('http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:8000/forecast', payload)
     );
 
     return res.data;
@@ -40,7 +40,7 @@ async getUsageForecast() {
     }));
 
   const res = await firstValueFrom(
-    this.http.post('http://127.0.0.1:8000/forecast/usage', payload)
+    this.http.post('http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:8000/forecast/usage', payload)
   );
 
   return res.data;
