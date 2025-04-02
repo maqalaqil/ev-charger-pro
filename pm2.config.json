@@ -1,0 +1,28 @@
+{
+  "apps": [
+    {
+      "name": "nest-backend",
+      "cwd": "./backend",
+      "script": "dist/main.js",
+      "interpreter": "node",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "ai-forecast",
+      "cwd": "./ai",
+      "script": "venv/bin/uvicorn",
+      "args": "ai_forecast_service:app --host 0.0.0.0 --port 8000",
+      "interpreter": "none"
+    },
+    {
+      "name": "react-frontend",
+      "cwd": "./frontend",
+      "script": "serve",
+      "args": "-s build -l 3070",
+      "interpreter": "node"
+    }
+  ]
+}
+
