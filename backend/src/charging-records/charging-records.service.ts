@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ChargingRecord } from './charging-record.entity';
@@ -14,6 +14,13 @@ export class ChargingRecordsService {
 
   findAll() {
     return this.repo.find({ order: { date: 'ASC' } });
+  } 
+  async update(id: number, updateData: Partial<ChargingRecord>) {
+    const record = await this.repo.findOneBy({ id });
+    if (!record) throw new NotFoundException();
+    Object.assign(record, updateData);
+    return this.repo.save(record);
+
   }
 
   async create(data: { readingAfter: number; kwhPrice: number; date: Date }) {

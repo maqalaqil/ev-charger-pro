@@ -14,7 +14,9 @@ const Dashboard = ({ token, role }) => {
   const [form, setForm] = useState({ readingAfter: '', kwhPrice: '', date: '' });
   const [darkMode, setDarkMode] = useState(false);
   const [filter, setFilter] = useState({ from: '', to: '' });
-
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({ readingAfter: '', kwhPrice: '', date: '' });
+  
   const lastReading = records.length > 0 ? records[records.length - 1].readingAfter : 0;
   const lastPricePerKwh = records.length > 0 ? (records[records.length - 1].price / records[records.length - 1].totalCharged) : '';
 
@@ -23,7 +25,35 @@ const Dashboard = ({ token, role }) => {
     fetchTrend();
     fetchRecords();
   }, []);
-
+  const handleEdit = (record) => {
+    setEditingId(record.id);
+    setEditForm({
+      readingAfter: record.readingAfter,
+      kwhPrice: record.price / record.totalCharged,
+      date: record.date.split('T')[0]
+    });
+  };
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm({ readingAfter: '', kwhPrice: '', date: '' });
+  };
+  const submitEdit = async () => {
+    const payload = {
+      readingAfter: parseFloat(editForm.readingAfter),
+      kwhPrice: parseFloat(editForm.kwhPrice),
+      date: editForm.date
+    };
+  
+    await axios.patch(`http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:3001/charging-records/${editingId}`, payload, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  
+    setEditingId(null);
+    fetchRecords();
+    fetchSummary();
+    fetchTrend();
+  };
+  
   const fetchSummary = async () => {
     let url = 'http://ec2-3-248-227-129.eu-west-1.compute.amazonaws.com:3001/charging-summary/monthly';
     if (filter.from && filter.to) {
@@ -206,17 +236,58 @@ const Dashboard = ({ token, role }) => {
                 <th style={thStyle}>Date</th>
               </tr>
             </thead>
-            <tbody>
-              {records.map((r, index) => (
-                <tr key={r.id || index}>
-                  <td style={tdStyle}>{r.readingBefore}</td>
-                  <td style={tdStyle}>{r.readingAfter}</td>
-                  <td style={tdStyle}>{r.totalCharged.toFixed(2)}</td>
-                  <td style={tdStyle}>{r.price.toFixed(2)}</td>
-                  <td style={tdStyle}>{new Date(r.date).toLocaleDateString()}</td>
-                </tr>
-              ))}
-            </tbody>
+           <tbody>
+  {records.map((r, index) => (
+    <tr key={r.id || index}>
+      {editingId === r.id ? (
+        <>
+          <td style={tdStyle}>{r.readingBefore}</td>
+          <td style={tdStyle}>
+            <input
+              type="number"
+              value={editForm.readingAfter}
+              onChange={(e) => setEditForm({ ...editForm, readingAfter: e.target.value })}
+              style={{ width: '80px' }}
+            />
+          </td>
+          <td style={tdStyle}>–</td>
+          <td style={tdStyle}>
+            <input
+              type="number"
+              value={editForm.kwhPrice}
+              onChange={(e) => setEditForm({ ...editForm, kwhPrice: e.target.value })}
+              style={{ width: '80px' }}
+            />
+          </td>
+          <td style={tdStyle}>
+            <input
+              type="date"
+              value={editForm.date}
+              onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
+              style={{ width: '120px' }}
+            />
+          </td>
+          <td style={tdStyle}>
+            <button onClick={submitEdit} style={{ marginRight: 6 }}>💾 Save</button>
+            <button onClick={cancelEdit}>✖ Cancel</button>
+          </td>
+        </>
+      ) : (
+        <>
+          <td style={tdStyle}>{r.readingBefore}</td>
+          <td style={tdStyle}>{r.readingAfter}</td>
+          <td style={tdStyle}>{r.totalCharged.toFixed(2)}</td>
+          <td style={tdStyle}>{r.price.toFixed(2)}</td>
+          <td style={tdStyle}>{new Date(r.date).toLocaleDateString()}</td>
+          <td style={tdStyle}>
+            <button onClick={() => handleEdit(r)}>✏️ Edit</button>
+          </td>
+        </>
+      )}
+    </tr>
+  ))}
+</tbody>
+
             <tfoot>
               <tr style={{ fontWeight: 'bold', background: darkMode ? '#222' : '#f4f4f4' }}>
                 <td colSpan={2} style={tdStyle}>Total</td>
