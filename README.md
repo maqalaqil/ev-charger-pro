@@ -230,10 +230,6 @@ pip install fastapi uvicorn pandas scikit-learn numpy
 
 MIT License. Built with ❤️ by [your team/org name].
 
----
-
-Let me know if you want a Docker version, GitHub Action CI/CD, or Swagger API Docs.
-```
 
 ---
 
