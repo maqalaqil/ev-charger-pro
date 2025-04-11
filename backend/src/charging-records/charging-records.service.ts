@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ChargingRecord } from './charging-record.entity';
 import { NotifyService } from './notify.service';
+import { UpdateChargingRecordDto } from './charging-record.dto';
+
 
 @Injectable()
 export class ChargingRecordsService {
@@ -15,13 +17,31 @@ export class ChargingRecordsService {
   findAll() {
     return this.repo.find({ order: { date: 'ASC' } });
   } 
-  async update(id: number, updateData: Partial<ChargingRecord>) {
+  async update(id: number, dto: UpdateChargingRecordDto) {
     const record = await this.repo.findOneBy({ id });
-    if (!record) throw new NotFoundException();
-    Object.assign(record, updateData);
-    return this.repo.save(record);
-
+  
+    if (!record) {
+      throw new NotFoundException('Charging record not found');
+    }
+  
+    // Calculate new values if readingAfter is being updated
+    if (dto.readingAfter !== undefined) {
+      record.totalCharged = dto.readingAfter - record.readingBefore;
+      record.readingAfter = dto.readingAfter;
+  
+      if (dto.kwhPrice !== undefined) {
+        record.price = record.totalCharged * dto.kwhPrice;
+      }
+    }
+  
+    // Update date if provided
+    if (dto.date !== undefined) {
+      record.date = new Date(dto.date);
+    }
+  
+    return await this.repo.save(record);
   }
+  
 
   async create(data: { readingAfter: number; kwhPrice: number; date: Date }) {
     // Step 1: Get the last record sorted by `readingAfter`
