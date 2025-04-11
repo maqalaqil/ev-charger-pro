@@ -228,7 +228,7 @@ pip install fastapi uvicorn pandas scikit-learn numpy
 
 ## 📜 License
 
-MIT License. Built with ❤️ by [your team/org name].
+MIT License. Built with ❤️ by Maher alaqil & ChatGPT.
 
 
 ---
