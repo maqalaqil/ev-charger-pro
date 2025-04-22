@@ -232,7 +232,3 @@ MIT License. Built with ❤️ by Maher alaqil & ChatGPT.
 
 
 ---
-
-✅ You can now save this as `README.md` in your project root.
-
-Would you like me to generate the `requirements.txt` and `.env` templates too?
